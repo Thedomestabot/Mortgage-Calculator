@@ -1,0 +1,87 @@
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.mortgage-calculator {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333333;
+}
+
+form {
+  display: grid;
+  grid-gap: 20px;
+}
+
+label {
+  font-weight: bold;
+  color: #555555;
+}
+
+input,
+select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  font-size: 16px;
+}
+
+button {
+  background-color: #4caf50;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+p {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #333333;
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  .mortgage-calculator {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  input,
+  select,
+  button {
+    font-size: 14px;
+  }
+}
