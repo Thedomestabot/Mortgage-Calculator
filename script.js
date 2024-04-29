@@ -21,7 +21,7 @@ const VA_FUNDING_FEE_RATES = {
 
 // Utility Functions
 function calculateFundingFee(loanAmount, downPaymentPercentage, fundingFeeRate) {
-  return (loanAmount * (1 - downPaymentPercentage / 100)) * (fundingFeeRate / 100);
+  return (loanAmount * fundingFeeRate);
 }
 
 function calculateMIP(loanAmount) {
