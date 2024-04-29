@@ -8,10 +8,6 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
 }
 
 .mortgage-calculator {
@@ -21,6 +17,17 @@ body {
   padding: 30px;
   max-width: 600px;
   width: 100%;
+  position: relative; /* Add this line */
+}
+
+.disclaim {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-top: 1px solid #cccccc;
+  font-size: 14px;
+  color: #555555;
+  text-align: center; /* Center the text */
+  margin-top: 20px; /* Add some space between the disclaimer and other elements */
 }
 
 h1 {
@@ -85,6 +92,7 @@ p {
     font-size: 14px;
   }
 }
-#income{
-background-color: limeGreen;
+
+#income {
+  background-color: limeGreen;
 }
