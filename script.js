@@ -96,11 +96,19 @@ const principalInterest = document.getElementById("principal-interest");
 const tax = document.getElementById("tax");
 const monthlyPayment = document.getElementById("monthly-payment");
 
+// Add new field for Income
+const income = document.createElement("p");
+income.id = "income";
+document.body.appendChild(income);
+
 // Event Listeners
+const vaUseLabel = document.querySelector('label[for="va-use"]');
+const fundingFeeLabel = document.querySelector('label[for="funding-fee"]');
+
 vaUse.style.display = "none";
-vaUse.previousElementSibling.style.display = "none";
+vaUseLabel.style.display = "none";
 fundingFee.style.display = "none";
-fundingFee.previousElementSibling.style.display = "none";
+fundingFeeLabel.style.display = "none";
 
 /**
  * Toggles the visibility of VA-specific fields based on the selected loan type.
@@ -108,19 +116,19 @@ fundingFee.previousElementSibling.style.display = "none";
 loanType.addEventListener("change", function () {
   if (loanType.value === "CONV") {
     vaUse.style.display = "none";
-    vaUse.previousElementSibling.style.display = "none";
+    vaUseLabel.style.display = "none";
     fundingFee.style.display = "none";
-    fundingFee.previousElementSibling.style.display = "none";
+    fundingFeeLabel.style.display = "none";
   } else if (loanType.value === "VA") {
     vaUse.style.display = "block";
-    vaUse.previousElementSibling.style.display = "block";
+    vaUseLabel.style.display = "block";
     fundingFee.style.display = "block";
-    fundingFee.previousElementSibling.style.display = "block";
+    fundingFeeLabel.style.display = "block";
   } else if (loanType.value === "FHA") {
     vaUse.style.display = "none";
-    vaUse.previousElementSibling.style.display = "none";
+    vaUseLabel.style.display = "none";
     fundingFee.style.display = "block";
-    fundingFee.previousElementSibling.style.display = "block";
+    fundingFeeLabel.style.display = "block";
     updateFundingFee(calculateMIP(loanAmount.value));
   }
 });
@@ -171,36 +179,43 @@ form.addEventListener("submit", function (event) {
   }
 
   // Calculate monthly payment
-  const monthlyInterest = PMT(interestRateValue / 12, loanTermValue * 12, loanAmountValue);
-  const monthlyTax = purchasePriceValue * (stateValue / 12);
-  let monthlyPaymentAmount = monthlyInterest + monthlyTax;
+const monthlyInterest = PMT(interestRateValue / 12, loanTermValue * 12, loanAmountValue);
+const monthlyTax = purchasePriceValue * (stateValue / 12);
+let monthlyPaymentAmount = monthlyInterest + monthlyTax;
 
-  // Calculate MMIP for FHA loans
-  if (loanType.value === "FHA") {
-    const mmipAmount = calculateMMIP(loanAmountValue, downPaymentPercentage, loanTermValue);
-    monthlyPaymentAmount += mmipAmount;
-    document.getElementById("mmip-display").textContent =
-      "MIP: " + mmipAmount.toLocaleString("en-US", { style: "currency", currency: "USD" });
-  } else {
-    document.getElementById("mmip-display").textContent = "";
-  }
+// Calculate MMIP for FHA loans
+if (loanType.value === "FHA") {
+  const mmipAmount = calculateMMIP(loanAmountValue, downPaymentPercentage, loanTermValue);
+  monthlyPaymentAmount += mmipAmount;
+  document.getElementById("mmip-display").textContent =
+    "MIP: " + mmipAmount.toLocaleString("en-US", { style: "currency", currency: "USD" });
+} else {
+  document.getElementById("mmip-display").textContent = "";
+}
 
-  // Calculate insurance
-  const insuranceAmount = calculateInsurance(purchasePriceValue);
-  monthlyPaymentAmount += insuranceAmount;
+// Calculate insurance
+const insuranceAmount = calculateInsurance(purchasePriceValue);
+monthlyPaymentAmount += insuranceAmount;
 
-  // Update display values
-  document.getElementById("loan-amount").textContent =
-    "Loan amount: " +
-    loanAmountValue.toLocaleString("en-US", { style: "currency", currency: "USD" });
-  document.getElementById("principal-interest").textContent =
-    "Principal and interest: " +
-    monthlyInterest.toLocaleString("en-US", { style: "currency", currency: "USD" });
-  document.getElementById("tax").textContent =
-    "Tax: " + monthlyTax.toLocaleString("en-US", { style: "currency", currency: "USD" });
-  document.getElementById("insuranceAmount").textContent =
-    "Insurance: " + insuranceAmount.toLocaleString("en-US", { style: "currency", currency: "USD" });
-  document.getElementById("monthly-payment").textContent =
-    "Monthly payment: " +
-    monthlyPaymentAmount.toLocaleString("en-US", { style: "currency", currency: "USD" });
+// Calculate Income
+const targetIncome = monthlyPaymentAmount * 12 * 2; // Assuming 25% of gross income for housing expenses
+
+// Update display values
+document.getElementById("loan-amount").textContent =
+  "Loan amount: " +
+  loanAmountValue.toLocaleString("en-US", { style: "currency", currency: "USD" });
+document.getElementById("principal-interest").textContent =
+  "Principal and interest: " +
+  monthlyInterest.toLocaleString("en-US", { style: "currency", currency: "USD" });
+document.getElementById("tax").textContent =
+  "Tax: " + monthlyTax.toLocaleString("en-US", { style: "currency", currency: "USD" });
+document.getElementById("insuranceAmount").textContent =
+  "Insurance: " + insuranceAmount.toLocaleString("en-US", { style: "currency", currency: "USD" });
+document.getElementById("monthly-payment").textContent =
+  "Monthly payment: " +
+  monthlyPaymentAmount.toLocaleString("en-US", { style: "currency", currency: "USD" });
+
+// Update income
+document.getElementById("income").textContent =
+  "Income: " + targetIncome.toLocaleString("en-US", { style: "currency", currency: "USD" });
 });
